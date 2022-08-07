@@ -11,7 +11,7 @@ class Override_Tax_Calculation_Sales(models.Model):
         def compute_taxes(order_line):
             price = order_line.price_unit * (1 - (order_line.discount or 0.0) / 100.0)
             order = order_line.order_id
-            return order_line.tax_id._origin.compute_all(price, order.currency_id, order_line.product_uom_qty, product=order_line.product_id, partner=order.partner_shipping_id)
+            return order_line.tax_id._origin.compute_all(price, order.currency_id, order_line.x_studio_weight, product=order_line.product_id, partner=order.partner_shipping_id)
 
         account_move = self.env['account.move']
         for order in self:
