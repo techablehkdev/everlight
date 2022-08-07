@@ -5,7 +5,7 @@ from odoo import fields, models, api
 
 class Override_Price_Calculation(models.Model):
     
-    _inherit = 'sale.order.line'
+    _inherit = 'sales.order.line'
 
     @api.depends('product_uom_qty', 'discount', 'price_unit', 'tax_id', 'x_studio_weight')
     def _compute_amount(self):
