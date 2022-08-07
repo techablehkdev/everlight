@@ -9,7 +9,7 @@ class Override_Price_Calculation(models.Model):
 
     @api.depends('product_uom_qty', 'discount', 'price_unit', 'tax_id', 'x_studio_weight')
     def _compute_amount(self):
-        res = super(SalesOrderLine, self)._compute_amount()
+        res = super(Override_Price_Calculation, self)._compute_amount()
         for line in self:
 #           price = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
             price = line.price_unit * line.x_studio_weight
