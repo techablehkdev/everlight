@@ -40,6 +40,9 @@ class Override_Price_Calculation_Inv(models.Model):
         return res
 
 
+class Override_Tax_Calculation_Inv(models.Model):
+    _inherit = 'account.move'
+        
     def _recompute_tax_lines(self, recompute_tax_base_amount=False, tax_rep_lines_to_recompute=None):
             """ Compute the dynamic tax lines of the journal entry.
 
