@@ -5,16 +5,18 @@ class Override_Price_Calculation_Inv(models.Model):
     _inherit = 'account.move'
 
     @api.model
-    def _get_price_total_and_subtotal_model(self, price_unit, quantity, discount, currency, product, partner, taxes, move_type, x_studio_weight):
+    def _get_price_total_and_subtotal_model(self, price_unit, discount, currency, product, partner, taxes, move_type, x_studio_weight):
 
         res = super(Override_Price_Calculation_Inv, self)._get_price_total_and_subtotal_model()
         
+
+        quantity = x_studio_weight
         line_discount_price_unit = price_unit * (1 - (discount / 100.0))
-        subtotal = x_studio_weight * line_discount_price_unit
+        subtotal = quantity * line_discount_price_unit
         
         if taxes:
             taxes_res = taxes._origin.with_context(force_sign=1).compute_all(line_discount_price_unit,
-                quantity=x_studio_weight, currency=currency, product=product, partner=partner, is_refund=move_type in ('out_refund', 'in_refund'))
+                quantity=quantity, currency=currency, product=product, partner=partner, is_refund=move_type in ('out_refund', 'in_refund'))
             res['price_subtotal'] = taxes_res['total_excluded']
             res['price_total'] = taxes_res['total_included']
         else:
