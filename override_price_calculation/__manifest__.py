@@ -1,7 +1,7 @@
 {
     'name': "override_price_calculation",
     'version': '1.0',
-    'depends': ['base'.'studio_customization'],
+    'depends': ['base'],
     'author': "Techable",
     'category': 'Transfer',
     'description': "",
