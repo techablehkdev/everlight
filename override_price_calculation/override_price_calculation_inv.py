@@ -70,7 +70,7 @@ class Override_Tax_Calculation_Inv(models.Model):
                 if move.is_invoice(include_receipts=True):
                     handle_price_include = True
                     sign = -1 if move.is_inbound() else 1
-                    quantity = base_line.x_studio.weight
+                    quantity = base_line.x_studio_weight
                     is_refund = move.move_type in ('out_refund', 'in_refund')
                     price_unit_wo_discount = sign * base_line.price_unit * (1 - (base_line.discount / 100.0))
                 else:
