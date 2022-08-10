@@ -26,7 +26,7 @@ class AccountMoveLine(models.Model):
             taxes=self.tax_ids if taxes is None else taxes,
             move_type=self.move_id.move_type if move_type is None else move_type,
         )
-
+        
     @api.model
     def _get_price_total_and_subtotal_model(self, price_unit, quantity, discount, currency, product, partner, taxes, move_type):
         ''' This method is used to compute 'price_total' & 'price_subtotal'.
@@ -44,13 +44,13 @@ class AccountMoveLine(models.Model):
         res = {}
 
         # Compute 'price_subtotal'.
-        line_discount_price_unit = price_unit * (1 - (discount / 100.0))
-        subtotal = (self.x_studio_price*self.x_studio_weight)/self.quantity * line_discount_price_unit
+        line_discount_price_unit = (self.x_studio_price*self.x_studio_weight)/self.quantity * (1 - (discount / 100.0))
+        subtotal = quantity * line_discount_price_unit
 
         # Compute 'price_total'.
         if taxes:
             taxes_res = taxes._origin.with_context(force_sign=1).compute_all(line_discount_price_unit,
-                quantity=(self.x_studio_price*self.x_studio_weight)/self.quantity, currency=currency, product=product, partner=partner, is_refund=move_type in ('out_refund', 'in_refund'))
+                quantity=quantity, currency=currency, product=product, partner=partner, is_refund=move_type in ('out_refund', 'in_refund'))
             res['price_subtotal'] = taxes_res['total_excluded']
             res['price_total'] = taxes_res['total_included']
         else:
