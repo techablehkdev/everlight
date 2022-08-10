@@ -4,7 +4,16 @@ from odoo import models, api
 class Override_Price_Calculation_Inv(models.Model):
     
     _inherit = 'account.move.line'
-        
+                        
+    @api.onchange('quantity', 'discount', 'price_unit', 'tax_ids', 'x_studio_weight')
+    def _onchange_price_subtotal(self):
+        for line in self:
+            if not line.move_id.is_invoice(include_receipts=True):
+                continue
+
+            line.update(line._get_price_total_and_subtotal())
+            line.update(line._get_fields_onchange_subtotal())
+
     @api.model
     def _get_price_total_and_subtotal_model(self, price_unit, quantity, discount, currency, product, partner, taxes, move_type):
 #         res = super(Override_Price_Calculation_Inv, self)._get_price_total_and_subtotal_model()
