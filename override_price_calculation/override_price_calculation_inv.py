@@ -41,7 +41,6 @@ class AccountMoveLine(models.Model):
         :param move_type:   The type of the move.
         :return:            A dictionary containing 'price_subtotal' & 'price_total'.
         '''
-        res = {}
 
         # Compute 'price_subtotal'.
         line_discount_price_unit = ((self.x_studio_price*self.x_studio_weight)/self.quantity) * (1 - (discount / 100.0))
