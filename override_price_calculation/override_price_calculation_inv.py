@@ -45,12 +45,12 @@ class AccountMoveLine(models.Model):
 
         # Compute 'price_subtotal'.
         line_discount_price_unit = (self.x_studio_price*self.x_studio_weight)/self.quantity * (1 - (discount / 100.0))
-        subtotal = quantity * line_discount_price_unit
+        subtotal = self.x_studio_weight * line_discount_price_unit
 
         # Compute 'price_total'.
         if taxes:
             taxes_res = taxes._origin.with_context(force_sign=1).compute_all(line_discount_price_unit,
-                quantity=quantity, currency=currency, product=product, partner=partner, is_refund=move_type in ('out_refund', 'in_refund'))
+                quantity=self.x_studio_weight, currency=currency, product=product, partner=partner, is_refund=move_type in ('out_refund', 'in_refund'))
             res['price_subtotal'] = taxes_res['total_excluded']
             res['price_total'] = taxes_res['total_included']
         else:
