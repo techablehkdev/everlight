@@ -17,7 +17,7 @@ class AccountMoveLine(models.Model):
     def _get_price_total_and_subtotal(self, price_unit=None, quantity=None, discount=None, currency=None, product=None, partner=None, taxes=None, move_type=None):
         self.ensure_one()
         return self._get_price_total_and_subtotal_model(
-            price_unit=((self.x_studio_price*self.x_studio_weight)/self.quantity) if quantity is None else quantity,
+            price_unit=self.price_unit if quantity is None else quantity,
             quantity=self.quantity if quantity is None else quantity,
             discount=self.discount if discount is None else discount,
             currency=self.currency_id if currency is None else currency,
