@@ -10,14 +10,13 @@ class AccountMoveLine(models.Model):
         for line in self:
             if not line.move_id.is_invoice(include_receipts=True):
                 continue
-            line.update({ 'price_unit':  (self.x_studio_price*self.x_studio_weight)/self.quantity})
             line.update(line._get_price_total_and_subtotal())
             line.update(line._get_fields_onchange_subtotal())
             
     def _get_price_total_and_subtotal(self, price_unit=None, quantity=None, discount=None, currency=None, product=None, partner=None, taxes=None, move_type=None):
         self.ensure_one()
         return self._get_price_total_and_subtotal_model(
-            price_unit=((self.x_studio_price*self.x_studio_weight)/self.quantity) if price_unit is None else price_unit,
+            price_unit=(self.x_studio_price*self.x_studio_weight/self.quantity) if price_unit is None else price_unit,
             quantity=self.quantity if quantity is None else quantity,
             discount=self.discount if discount is None else discount,
             currency=self.currency_id if currency is None else currency,
