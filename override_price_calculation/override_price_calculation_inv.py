@@ -10,6 +10,7 @@ class AccountMoveLine(models.Model):
         for line in self:
             if not line.move_id.is_invoice(include_receipts=True):
                 continue
+            line.update({ 'price_unit':  (self.x_studio_price*self.x_studio_weight)/self.quantity})
             line.update(line._get_price_total_and_subtotal())
             line.update(line._get_fields_onchange_subtotal())
             
