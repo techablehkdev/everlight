@@ -5,7 +5,7 @@ class AccountMoveLine(models.Model):
     
     _inherit = 'account.move.line'
                         
-    @api.onchange('quantity', 'discount', 'price_unit', 'tax_ids', 'x_studio_weight', 'x_studio_price')
+    @api.onchange('quantity', 'discount', 'tax_ids', 'x_studio_weight', 'x_studio_price')
     def _onchange_price_subtotal(self):
         for line in self:
             if not line.move_id.is_invoice(include_receipts=True):
