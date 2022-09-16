@@ -26,3 +26,4 @@ class AccountMoveLine(models.Model):
             taxes=self.tax_ids if taxes is None else taxes,
             move_type=self.move_id.move_type if move_type is None else move_type,
         )
+        
