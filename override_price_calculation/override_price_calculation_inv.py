@@ -12,6 +12,8 @@ class AccountMoveLine(models.Model):
                 continue
             if (self.x_studio_price*self.x_studio_weight /self.quantity) != False:
                 line.update({ 'price_unit':  self.x_studio_price*self.x_studio_weight/self.quantity})
+            else:
+                line.update({ 'price_unit':  0})
                 
     @api.onchange('product_id')
     def _onchange_product_id(self):
