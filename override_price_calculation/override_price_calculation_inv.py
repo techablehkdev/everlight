@@ -41,7 +41,7 @@ class SaleOrderLine(models.Model):
         Compute the amounts of the SO line.
         """
         for line in self:
-            price = line.x_studio_price * line.x_studio_weight  * (1 - (line.discount or 0.0) / 100.0)
+            price = (line.x_studio_price * line.x_studio_weight  * (1 - (line.discount or 0.0) / 100.0 )) / line.product_uom_qty
             taxes = line.tax_id.compute_all(price, line.order_id.currency_id, line.product_uom_qty, product=line.product_id, partner=line.order_id.partner_shipping_id)
             line.update({
                 'price_tax': sum(t.get('amount', 0.0) for t in taxes.get('taxes', [])),
