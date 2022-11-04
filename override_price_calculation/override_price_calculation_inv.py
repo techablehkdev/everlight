@@ -47,6 +47,9 @@ class SaleOrderLine(models.Model):
                 price = (line.x_studio_price * line.x_studio_weight  * (1 - (line.discount or 0.0) / 100.0 )) / line.product_uom_qty
                 if (line.x_studio_price*line.x_studio_weight /line.product_uom_qty) != False:
                     line.update({ 'price_unit':  line.x_studio_price*line.x_studio_weight/line.product_uom_qty})
+                else:
+                    line.update({ 'price_unit':  0})
+                    
             else:
                 price = line.x_studio_price * line.x_studio_weight  * (1 - (line.discount or 0.0) / 100.0 )
                 
